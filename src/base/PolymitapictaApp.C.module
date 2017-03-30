@@ -1,0 +1,47 @@
+#include "PolymitapictaApp.h"
+#include "Moose.h"
+#include "AppFactory.h"
+#include "MooseSyntax.h"
+
+template<>
+InputParameters validParams<PolymitapictaApp>()
+{
+  InputParameters params = validParams<MooseApp>();
+  return params;
+}
+
+PolymitapictaApp::PolymitapictaApp(InputParameters parameters) :
+    MooseApp(parameters)
+{
+  Moose::registerObjects(_factory);
+  PolymitapictaApp::registerObjects(_factory);
+
+  Moose::associateSyntax(_syntax, _action_factory);
+  PolymitapictaApp::associateSyntax(_syntax, _action_factory);
+}
+
+PolymitapictaApp::~PolymitapictaApp()
+{
+}
+
+// External entry point for dynamic application loading
+extern "C" void PolymitapictaApp__registerApps() { PolymitapictaApp::registerApps(); }
+void
+PolymitapictaApp::registerApps()
+{
+  registerApp(PolymitapictaApp);
+}
+
+// External entry point for dynamic object registration
+extern "C" void PolymitapictaApp__registerObjects(Factory & factory) { PolymitapictaApp::registerObjects(factory); }
+void
+PolymitapictaApp::registerObjects(Factory & /*factory*/)
+{
+}
+
+// External entry point for dynamic syntax association
+extern "C" void PolymitapictaApp__associateSyntax(Syntax & syntax, ActionFactory & action_factory) { PolymitapictaApp::associateSyntax(syntax, action_factory); }
+void
+PolymitapictaApp::associateSyntax(Syntax & /*syntax*/, ActionFactory & /*action_factory*/)
+{
+}
